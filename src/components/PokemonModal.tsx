@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { closeModal } from "../slices/pokemonSlice";
-import { typeColors } from "../types/types";
+import { typeColors, PokemonModalProps } from "../types/types";
 
 const adjustBrightness = (hex: string, percent: number) => {
   let r = parseInt(hex.substring(1, 3), 16);
@@ -17,7 +17,7 @@ const adjustBrightness = (hex: string, percent: number) => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-const PokemonModal: React.FC = () => {
+const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
   const dispatch = useDispatch();
   const selectedPokemon = useSelector((state: RootState) => state.pokemon.selectedPokemon);
   const pokemonDetails = useSelector((state: RootState) => state.pokemon.pokemonDetails);

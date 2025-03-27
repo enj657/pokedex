@@ -4,8 +4,10 @@ export interface Pokemon {
 }
   
 export interface PokemonResponse {
-  results: Pokemon[];
+  results: { name: string; url: string }[];
+  next?: string;
 }
+
   
 export interface Ability {
   ability: {
@@ -45,3 +47,8 @@ export const typeColors = {
   steel: "#B7B7CE",
   fairy: "#D685AD"
 };
+
+export interface PokemonModalProps {
+  url: string;
+  onClose: () => void;
+}

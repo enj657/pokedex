@@ -1,7 +1,8 @@
 import { PokemonResponse, PokemonDetailsData } from "../types/types";
 
-export async function fetchPokemon(): Promise<PokemonResponse> {
-  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
+export async function fetchPokemon(url?: string): Promise<PokemonResponse> {
+  const apiUrl = url || "https://pokeapi.co/api/v2/pokemon?limit=21";
+  const response = await fetch(apiUrl);
 
   if (!response.ok) {
     throw new Error(`Error: ${response.status} ${response.statusText}`);
