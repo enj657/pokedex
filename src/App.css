@@ -193,6 +193,7 @@ li::first-letter {
 
 .modal-content ul {
   list-style: none;
+  text-transform: capitalize;
   padding: 0;
   font-size: 0.8rem;
   color: var(--pokemon-black);
