@@ -42,7 +42,6 @@ function App() {
         </div>
       </div>
 
-      {/* Modal should render only if `isModalOpen` is true */}
       {isModalOpen && selectedPokemon && <PokemonModal url={selectedPokemon} onClose={closeModal} />}
     </>
   );

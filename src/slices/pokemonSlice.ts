@@ -19,7 +19,6 @@ const pokemonSlice = createSlice({
   reducers: {
     setSelectedPokemon(state, action: PayloadAction<string | null>) {
       state.selectedPokemon = action.payload;
-      // Open modal whenever a Pokémon is selected
       state.isModalOpen = action.payload !== null;
     },
     setPokemonDetails(state, action: PayloadAction<PokemonDetailsData | null>) {

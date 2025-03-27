@@ -21,11 +21,12 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ url, onClick }) => {
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>Error: {error.message}</h1>;
 
-  // Dispatch selected Pokemon and details when card is clicked
   const handleCardClick = () => {
-    dispatch(setSelectedPokemon(url));
-    dispatch(setPokemonDetails(data)); // Save details to the store
-    onClick();
+    if (data) {
+      dispatch(setSelectedPokemon(url));
+      dispatch(setPokemonDetails(data));
+      onClick();
+    }
   };
 
   return (
