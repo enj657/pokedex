@@ -2,11 +2,8 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: var(--pokemon-black);
-
+  color: rgba(255, 255, 255, 0.87); /* Dark mode text color */
+  background-color: var(--pokemon-black); /* Dark mode background */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -57,65 +54,4 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: var(--pokemon-black);
-  
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  
-    --pokemon-yellow: #FFCB05;
-    --pokemon-red: #E60012;
-    --pokemon-blue: #1D72B8;
-    --pokemon-black: #3C3C3B;
-  }
-  
-  a {
-    font-weight: 500;
-    color: var(--pokemon-blue);
-    text-decoration: inherit;
-  }
-  a:hover {
-    color: #535bf2;
-  }
-  
-  body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-  }
-  
-  h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-  }
-  
-  button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: var(--pokemon-black);
-    cursor: pointer;
-    transition: border-color 0.25s;
-  }
-  button:hover {
-    border-color: var(--pokemon-blue);
-  }
-  button:focus,
-  button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-  }
 }
