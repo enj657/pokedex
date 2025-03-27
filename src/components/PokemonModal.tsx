@@ -64,7 +64,7 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
           </div>
           <div className="modal-text-container">
             <h2>{pokemonDetails?.name}</h2>
-            <ul>
+            <ul className="modal-flex-list">
               {pokemonDetails?.stats.map((stat, index) => (
                 <li key={index}>
                   {stat.stat.name}: {stat.base_stat}

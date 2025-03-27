@@ -163,7 +163,7 @@ li::first-letter {
 
 .modal-text-container {
   width: 100%;
-  padding: 20px 33px;
+  padding: 10px;
   background: rgba(255, 255, 255, 0.85);
   /* border-radius: 0 0 12px 12px;f */
   box-sizing: border-box;
@@ -194,10 +194,19 @@ li::first-letter {
 .modal-content ul {
   list-style: none;
   padding: 0;
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: var(--pokemon-black);
   font-weight: bold;
   padding-bottom: 0.5rem;
+}
+
+.modal-flex-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.modal-flex-list li {
+  flex: 1 1 45%;
 }
 
 .close-btn {
@@ -219,4 +228,9 @@ li::first-letter {
     flex: 1 1 calc(25% - 1rem);
     max-width: calc(25% - 1rem);
   }
+  .modal-text-container {
+    padding: 20px 25px;
+  }
+  .modal-content ul {
+    font-size: 0.95rem;
 }
