@@ -6,7 +6,7 @@ import { PokemonResponse } from "./types/types";
 import PokemonCard from "./components/PokemonCard";
 import PokemonModal from "./components/PokemonModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setPokemonList, setNextUrl, setSelectedPokemon, setIsModalOpen } from "./slices/pokemonSlice";
+import { setPokemonList, setNextUrl, setSelectedPokemon, setIsModalOpen, setPokemonDetails } from "./slices/pokemonSlice";
 import { RootState } from "./store";
 
 function App() {
@@ -58,8 +58,9 @@ function App() {
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>Error: {error.message}</h1>;
 
-  const openModal = (pokemonUrl: string) => {
-    dispatch(setSelectedPokemon(pokemonUrl));
+  const openModal = (pokemonData: PokemonDetailsData) => {
+    dispatch(setSelectedPokemon(pokemonData.name));
+    dispatch(setPokemonDetails(pokemonData)); // Store details here
     dispatch(setIsModalOpen(true));
   };
 
@@ -73,8 +74,8 @@ function App() {
       <div className="pokedex">
         <h1 className="title">Pokedex</h1>
         <div className="pokemon-grid">
-          {pokemonList.map((pokemon, index) => (
-            <PokemonCard key={index} url={pokemon.url} onClick={() => openModal(pokemon.url)} />
+          {pokemonList.map((pokemon) => (
+            <PokemonCard key={pokemon.url} url={pokemon.url} onClick={openModal} />
           ))}
         </div>
         {nextUrl && <div ref={loaderRef} style={{ height: 50, textAlign: "center" }}>Loading more...</div>}

@@ -83,6 +83,7 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
                 <li key={index}>{abilityObj.ability.name}</li>
               ))}
             </ul>
+            {/* <p># {pokemonDetails?.id}</p> */}
           </div>
         </div>
       </div>

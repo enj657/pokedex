@@ -22,7 +22,10 @@ const pokemonSlice = createSlice({
   initialState,
   reducers: {
     setPokemonList(state, action: PayloadAction<PokemonResponse["results"]>) {
-      state.list = [...state.list, ...action.payload]; // Append new Pokémon
+      const newPokemon = action.payload.filter(
+        (pokemon) => !state.list.some((p) => p.name === pokemon.name)
+      );
+      state.list = [...state.list, ...newPokemon];
     },
     setNextUrl(state, action: PayloadAction<string | null>) {
       state.nextUrl = action.payload;
