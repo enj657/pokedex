@@ -18,6 +18,7 @@ export interface Ability {
 export interface PokemonDetailsData {
   name: string;
   abilities: Ability[];
+  id: number;
   height: number;
   weight: number;
   types: { type: { name: string } }[];
@@ -25,6 +26,14 @@ export interface PokemonDetailsData {
   sprites: {
     front_default: string;
   };
+  moves: {
+    move: { name: string };
+    version_group_details: {
+      level_learned_at: number;
+      move_learn_method: { name: string };
+      version_group: { name: string };
+    }[];
+  }[];
 }
 
 export const typeColors = {

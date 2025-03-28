@@ -33,7 +33,7 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
     : adjustBrightness(baseColor, 5);
 
   const modalStyle = {
-    background: `linear-gradient(135deg, ${baseColor} 20%, ${secondaryColor} 45%)`,
+    background: `linear-gradient(135deg, ${baseColor} 30%, ${secondaryColor} 70%)`,
   };
 
   const handleClose = () => {
@@ -45,27 +45,35 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
       <div className="modal-border">
         <div
           className="modal-content"
-          style={modalStyle}
           onClick={(e) => e.stopPropagation()}
         >
-          <span className="close-btn" onClick={handleClose}>
+          {/* <span className="close-btn" onClick={handleClose}>
             &times;
-          </span>
-          <div className="modal-image-container">
+          </span> */}
+          <div className="modal-header-row">
+            <h2>{pokemonDetails?.name}</h2>
+            <h3><span className="hp-display">HP </span>{pokemonDetails?.stats.find(stat => stat.stat.name === "hp")?.base_stat}</h3>
+          </div>
+          <div 
+              style={modalStyle}
+              className="modal-image-container">
             <img
               src={pokemonDetails?.sprites.front_default}
               alt={pokemonDetails?.name}
               className="modal-image"
             />
             <div className="modal-height-weight">
+              <p>NO: {pokemonDetails?.id}</p>
               <p>Ht: {pokemonDetails?.height / 10} m</p>
               <p>Wt: {pokemonDetails?.weight / 10} kg</p>
             </div>
           </div>
           <div className="modal-text-container">
-            <h2>{pokemonDetails?.name}</h2>
+            
             <ul className="modal-flex-list">
-              {pokemonDetails?.stats.map((stat, index) => (
+            {pokemonDetails?.stats
+              .filter(stat => stat.stat.name !== "hp")
+              .map((stat, index) => (
                 <li key={index}>
                   {stat.stat.name}: {stat.base_stat}
                 </li>

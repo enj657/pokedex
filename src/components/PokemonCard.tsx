@@ -5,7 +5,7 @@ import { PokemonDetailsData } from "../types/types";
 
 interface PokemonCardProps {
   url: string;
-  onClick: (data: PokemonDetailsData) => void; // Update onClick to accept data
+  onClick: (data: PokemonDetailsData) => void;
 }
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ url, onClick }) => {
