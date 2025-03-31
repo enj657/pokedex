@@ -14,13 +14,22 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ url, onClick }) => {
     queryFn: () => fetchPokemonDetails(url),
   });
 
-  if (isLoading) return <div className="pokemon-card">Loading...</div>;
+  if (isLoading) return 
+  <div className="pokemon-card">
+    <div className="pokemon-card-header">
+      <h2>Loading...</h2>
+    </div>
+    <img src="9.svg" alt="Pokemon Ball" />
+  </div>;
   if (error) return <h1>Error: {error.message}</h1>;
 
   return (
-    <div className="pokemon-card" onClick={() => onClick(data!)}> {/* Pass data here */}
-      <h2>{data?.name}</h2>
-      <img src={data?.sprites?.front_default} alt={data?.name} />
+    <div className="pokemon-card" onClick={() => onClick(data!)}>
+      <div className="pokemon-card-header">
+        <h2>{data?.name}</h2>
+      </div>
+      {/* <img src={data?.sprites?.front_default} alt={data?.name} /> */}
+      <img className="pokemon-card-image" src="9.svg" alt="Pokemon Ball" />
     </div>
   );
 };
