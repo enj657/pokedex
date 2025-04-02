@@ -253,6 +253,13 @@ li::first-letter {
   padding-bottom: 12px;
 }
 
+.modal-image-placeholder {
+  width: 216px;
+  height: 216px;
+  overflow: hidden;
+  text-align: center;
+}
+
 .modal-height-weight {
   position: absolute;
   bottom: 0px;

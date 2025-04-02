@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { closeModal } from "../slices/pokemonSlice";
-import { typeColors, PokemonModalProps, PokemonDetailsData } from "../types/types";
+import {
+  typeColors,
+  PokemonModalProps,
+  PokemonDetailsData,
+} from "../types/types";
 import {
   adjustLightnessLarge,
   adjustLightnessSmall,
@@ -23,26 +27,22 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
   useEffect(() => {
     if (!pokemonDetails) return;
 
-    const pokemonTypes = pokemonDetails.types.map(
-      (type) => type.type.name
-    );
+    const pokemonTypes = pokemonDetails.types.map((type) => type.type.name);
 
     let movesToDisplay: any[] = [];
 
     if (pokemonTypes.length === 1) {
-      movesToDisplay = pokemonDetails.moves.filter(
-        (move) => move.type === pokemonTypes[0]
-      ).slice(0, 2);
-    }
+      movesToDisplay = pokemonDetails.moves
+        .filter((move) => move.type === pokemonTypes[0])
+        .slice(0, 2);
+    } else if (pokemonTypes.length === 2) {
+      const firstTypeMoves = pokemonDetails.moves
+        .filter((move) => move.type === pokemonTypes[0])
+        .slice(0, 1);
 
-    else if (pokemonTypes.length === 2) {
-      const firstTypeMoves = pokemonDetails.moves.filter(
-        (move) => move.type === pokemonTypes[0]
-      ).slice(0, 1);
-
-      const secondTypeMoves = pokemonDetails.moves.filter(
-        (move) => move.type === pokemonTypes[1]
-      ).slice(0, 1);
+      const secondTypeMoves = pokemonDetails.moves
+        .filter((move) => move.type === pokemonTypes[1])
+        .slice(0, 1);
 
       movesToDisplay = [...firstTypeMoves, ...secondTypeMoves];
 
@@ -50,7 +50,10 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
         const remainingMoves = pokemonDetails.moves.filter(
           (move) => !movesToDisplay.includes(move)
         );
-        movesToDisplay = [...movesToDisplay, ...remainingMoves.slice(0, 2 - movesToDisplay.length)];
+        movesToDisplay = [
+          ...movesToDisplay,
+          ...remainingMoves.slice(0, 2 - movesToDisplay.length),
+        ];
       }
     }
 
@@ -106,11 +109,15 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
             </h3>
           </div>
           <div style={modalStyle} className="modal-image-container">
-            <img
-              src={pokemonDetails?.sprites.front_default}
-              alt={pokemonDetails?.name}
-              className="modal-image"
-            />
+            {pokemonDetails?.sprites.front_default ? (
+              <img
+                src={pokemonDetails.sprites.front_default}
+                alt={pokemonDetails.name}
+                className="modal-image"
+              />
+            ) : (
+              <div className="modal-image-placeholder">No Image</div>
+            )}
             <div className="modal-height-weight">
               <p>No: {pokemonDetails?.id}</p>
               <p>Ht: {pokemonDetails?.height / 10} m</p>
@@ -121,8 +128,7 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
             <ul className="modal-moves-list">
               {filteredMoves?.map((move, index) => (
                 <li key={index} className="modal-move-item">
-                  <span className={`modal-move-type ${move.type}`}>
-                  </span>
+                  <span className={`modal-move-type ${move.type}`}></span>
                   <span className="modal-move-name">{move.name}</span>
                   <span className="modal-move-power">{move.power || "—"}</span>
                 </li>
@@ -137,7 +143,6 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
                 </li>
               ))}
             </ul>
-
           </div>
         </div>
       </div>
