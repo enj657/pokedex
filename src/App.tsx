@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import "./App.css";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { fetchPokemon } from "./api/api";
-import { PokemonResponse } from "./types/types";
+import { PokemonResponse, PokemonDetailsData} from "./types/types";
 import PokemonCard from "./components/PokemonCard";
 import PokemonModal from "./components/PokemonModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -60,7 +60,7 @@ function App() {
 
   const openModal = (pokemonData: PokemonDetailsData) => {
     dispatch(setSelectedPokemon(pokemonData.name));
-    dispatch(setPokemonDetails(pokemonData)); // Store details here
+    dispatch(setPokemonDetails(pokemonData));
     dispatch(setIsModalOpen(true));
   };
 

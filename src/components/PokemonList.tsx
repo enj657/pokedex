@@ -1,31 +1,24 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPokemon, fetchPokemonDetails } from "../api/api";
+import { fetchPokemon } from "../api/api";
 import PokemonCard from "./PokemonCard";
+import { PokemonListItem, PokemonResponse } from "../types/types";
 
 const PokemonList: React.FC = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery<PokemonResponse>({
     queryKey: ["pokemon-list"],
     queryFn: () => fetchPokemon(),
   });
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-
+  if (!data) return <p>No data available</p>;
 
   return (
     <div className="pokemon-list">
-      {data.results.map((pokemon) => {
-        const { data: pokemonDetails, isLoading: detailsLoading } = useQuery({
-          queryKey: ["pokemon-details", pokemon.url],
-          queryFn: () => fetchPokemonDetails(pokemon.url),
-        });
-
-        if (detailsLoading) return <p key={pokemon.url}>Loading...</p>;
-        if (!pokemonDetails) return null;
-
-        return <PokemonCard key={pokemonDetails.name} pokemon={pokemonDetails} onClick={() => {}} />;
-      })}
+      {data.results?.map((pokemon: PokemonListItem) => (
+        <PokemonCard key={pokemon.name} url={pokemon.url} onClick={() => {}} />
+      ))}
     </div>
   );
 };

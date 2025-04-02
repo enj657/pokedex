@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PokemonResponse, PokemonDetailsData } from "../types/types";
+import { PokemonResponse, PokemonDetailsData, PokemonMove } from "../types/types";
 
 interface PokemonState {
   list: PokemonResponse["results"];
@@ -7,6 +7,8 @@ interface PokemonState {
   selectedPokemon: string | null;
   pokemonDetails: PokemonDetailsData | null;
   isModalOpen: boolean;
+  filteredMoves: PokemonMove[];
+  detailsCache: Record<string, PokemonDetailsData>;
 }
 
 const initialState: PokemonState = {
@@ -15,6 +17,8 @@ const initialState: PokemonState = {
   selectedPokemon: null,
   pokemonDetails: null,
   isModalOpen: false,
+  filteredMoves: [],
+  detailsCache: {},
 };
 
 const pokemonSlice = createSlice({
@@ -35,6 +39,9 @@ const pokemonSlice = createSlice({
       state.isModalOpen = action.payload !== null;
     },
     setPokemonDetails(state, action: PayloadAction<PokemonDetailsData | null>) {
+      if (action.payload) {
+        state.detailsCache[action.payload.name] = action.payload;
+      }
       state.pokemonDetails = action.payload;
     },
     setIsModalOpen(state, action: PayloadAction<boolean>) {
@@ -44,6 +51,10 @@ const pokemonSlice = createSlice({
       state.selectedPokemon = null;
       state.pokemonDetails = null;
       state.isModalOpen = false;
+    },
+    fetchDetailsFromCache(state, action: PayloadAction<string>) {
+      const cachedDetails = state.detailsCache[action.payload];
+      state.pokemonDetails = cachedDetails || null;
     },
   },
 });
@@ -55,6 +66,7 @@ export const {
   setPokemonDetails,
   setIsModalOpen,
   closeModal,
+  fetchDetailsFromCache, // Export the new action
 } = pokemonSlice.actions;
 
 export default pokemonSlice.reducer;

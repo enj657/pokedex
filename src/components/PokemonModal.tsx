@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { closeModal } from "../slices/pokemonSlice";
-import { typeColors, PokemonModalProps } from "../types/types";
+import { typeColors, PokemonModalProps, PokemonDetailsData } from "../types/types";
 import {
   adjustLightnessLarge,
   adjustLightnessSmall,
@@ -17,6 +17,45 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
   const pokemonDetails = useSelector(
     (state: RootState) => state.pokemon.pokemonDetails
   );
+
+  const [filteredMoves, setFilteredMoves] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!pokemonDetails) return;
+
+    const pokemonTypes = pokemonDetails.types.map(
+      (type) => type.type.name
+    );
+
+    let movesToDisplay: any[] = [];
+
+    if (pokemonTypes.length === 1) {
+      movesToDisplay = pokemonDetails.moves.filter(
+        (move) => move.type === pokemonTypes[0]
+      ).slice(0, 2);
+    }
+
+    else if (pokemonTypes.length === 2) {
+      const firstTypeMoves = pokemonDetails.moves.filter(
+        (move) => move.type === pokemonTypes[0]
+      ).slice(0, 1);
+
+      const secondTypeMoves = pokemonDetails.moves.filter(
+        (move) => move.type === pokemonTypes[1]
+      ).slice(0, 1);
+
+      movesToDisplay = [...firstTypeMoves, ...secondTypeMoves];
+
+      if (movesToDisplay.length < 2) {
+        const remainingMoves = pokemonDetails.moves.filter(
+          (move) => !movesToDisplay.includes(move)
+        );
+        movesToDisplay = [...movesToDisplay, ...remainingMoves.slice(0, 2 - movesToDisplay.length)];
+      }
+    }
+
+    setFilteredMoves(movesToDisplay);
+  }, [pokemonDetails]);
 
   if (!selectedPokemon || !pokemonDetails) return null;
 
@@ -36,49 +75,14 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
   };
 
   const modalContentStyle = {
-    backgroundImage: `
-      linear-gradient(42deg, ${adjustLightnessLarge(
-        baseColor,
-        isDark ? 1 : 10
-      )} 15%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? 1 : -1
-    )} 28%, rgba(0,0,0,0.1) 37%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? -2 : 25
-    )} 44%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? 5 : -5
-    )} 63%, rgba(0,0,0,0.1) 73%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? -5 : -15
-    )} 84%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? 12 : 25
-    )} 96%, rgba(0, 0, 0, 0.1) 100%),
-      linear-gradient(324deg, ${adjustLightnessLarge(
-        baseColor,
-        isDark ? 8 : -8
-      )} 19%, rgba(255,255,255,0.1) 28%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? -3 : -10
-    )} 40%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? 8 : -8
-    )} 68%, rgba(255,255,255,0.1) 75%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? -3 : 10
-    )} 89%, ${adjustLightnessLarge(
-      baseColor,
-      isDark ? 8 : -8
-    )} 92%, rgba(255,255,255,0.1) 100%)
-    `,
+    backgroundColor: baseColor,
     backgroundSize: "cover",
     backgroundBlendMode: "overlay",
   };
 
   const handleClose = () => {
     dispatch(closeModal());
+    if (onClose) onClose();
   };
 
   const textColor = isDark ? "white" : "black";
@@ -109,32 +113,22 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
             />
             <div className="modal-height-weight">
               <p>No: {pokemonDetails?.id}</p>
-              <p>
-                Ht: {pokemonDetails?.height / 10} m
-              </p>
-              <p>
-                Wt: {pokemonDetails?.weight / 10} kg
-              </p>
+              <p>Ht: {pokemonDetails?.height / 10} m</p>
+              <p>Wt: {pokemonDetails?.weight / 10} kg</p>
             </div>
           </div>
           <div className="modal-text-container">
-            <ul className="modal-flex-list">
-              {pokemonDetails?.stats
-                .filter((stat) => stat.stat.name !== "hp")
-                .map((stat, index) => (
-                  <li key={index} style={{ color: textColor }}>
-                    {stat.stat.name}: {stat.base_stat}
-                  </li>
-                ))}
-            </ul>
-            <h3 style={{ color: textColor }}>Types</h3>
-            <ul>
-              {pokemonDetails?.types.map((type, index) => (
-                <li key={index} style={{ color: textColor }}>
-                  {type.type.name}
+            <ul className="modal-moves-list">
+              {filteredMoves?.map((move, index) => (
+                <li key={index} className="modal-move-item">
+                  <span className={`modal-move-type ${move.type}`}>
+                  </span>
+                  <span className="modal-move-name">{move.name}</span>
+                  <span className="modal-move-power">{move.power || "—"}</span>
                 </li>
               ))}
             </ul>
+
             <h3 style={{ color: textColor }}>Abilities</h3>
             <ul>
               {pokemonDetails?.abilities.map((abilityObj, index) => (
@@ -143,6 +137,7 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
                 </li>
               ))}
             </ul>
+
           </div>
         </div>
       </div>

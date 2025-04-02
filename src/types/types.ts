@@ -1,24 +1,38 @@
+// Basic Pokémon Data
 export interface Pokemon {
   name: string;
   url: string;
 }
-  
+
+export interface PokemonListItem {
+  name: string;
+  url: string;
+}
+
+// API Response Structures
 export interface PokemonResponse {
-  results: { name: string; url: string }[];
+  results: Pokemon[];
   next?: string;
 }
 
-  
+// Detailed Pokémon Data
 export interface Ability {
   ability: {
     name: string;
   };
 }
 
+export interface PokemonMove {
+  name: string;
+  type: string;
+  power: string | number;
+}
+
 export interface PokemonDetailsData {
   name: string;
   abilities: Ability[];
   id: number;
+  url: string;
   height: number;
   weight: number;
   types: { type: { name: string } }[];
@@ -27,15 +41,30 @@ export interface PokemonDetailsData {
     front_default: string;
   };
   moves: {
-    move: { name: string };
-    version_group_details: {
-      level_learned_at: number;
-      move_learn_method: { name: string };
-      version_group: { name: string };
-    }[];
-  }[];
+    type: string; move: { name: string; url: string } 
+}[];
 }
 
+export interface MoveDetails {
+  name: string;
+  type: { name: string };
+  power: number | null;
+  accuracy: number | null;
+  pp: number;
+}
+
+// Component Props
+export interface PokemonCardProps {
+  url: string;
+  onClick: (pokemon: PokemonDetailsData) => void;
+}
+
+export interface PokemonModalProps {
+  url: string;
+  onClose: () => void;
+}
+
+// Constants
 export const typeColors = {
   normal: "#a5a478",
   fire: "#fb7c1b",
@@ -56,8 +85,3 @@ export const typeColors = {
   steel: "#939397",
   fairy: "#d96aa2",
 };
-
-export interface PokemonModalProps {
-  url: string;
-  onClose: () => void;
-}
