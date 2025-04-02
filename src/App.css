@@ -185,7 +185,7 @@ li::first-letter {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('foggy.png');
+  background-image: url('../assets/foggy.png');
   background-position: center;
   z-index: 0;
   pointer-events: none;
