@@ -68,13 +68,13 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
   const baseColor = typeColors[primaryType] || "#A8A77A";
   const secondaryColor = secondaryType
     ? typeColors[secondaryType]
-    : adjustLightnessLarge(baseColor, 5);
+    : adjustLightnessLarge(baseColor, 20);
 
   const luminance = getLuminance(baseColor);
   const isDark = luminance < 0.35;
 
   const modalStyle = {
-    background: `linear-gradient(135deg, ${baseColor} 30%, ${secondaryColor} 70%)`,
+    background: `linear-gradient(${baseColor}, transparent), linear-gradient(to top left,${secondaryColor}, transparent), linear-gradient(to top right, black, transparent)`,
   };
 
   const modalContentStyle = {
@@ -127,10 +127,20 @@ const PokemonModal: React.FC<PokemonModalProps> = ({ url, onClose }) => {
           <div className="modal-text-container">
             <ul className="modal-moves-list">
               {filteredMoves?.map((move, index) => (
-                <li key={index} className="modal-move-item">
-                  <span className={`modal-move-type ${move.type}`}></span>
-                  <span className="modal-move-name">{move.name}</span>
-                  <span className="modal-move-power">{move.power || "—"}</span>
+                <li
+                  key={index}
+                  className="modal-move-item"
+                  style={{ color: textColor }}
+                >
+                  <div className="modal-move-left-content">
+                    <span className={`modal-move-type ${move.type}`}></span>
+                  </div>
+                  <div className="modal-move-right-content">
+                    <span className="modal-move-name">{move.name}</span>
+                    <span className="modal-move-power">
+                      {move.power || "—"}
+                    </span>
+                  </div>
                 </li>
               ))}
             </ul>
